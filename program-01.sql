@@ -79,5 +79,16 @@ select * from accident;
 insert into accident values (16,'2008-03-08',"domlur");
 select * from accident;
 
+select * from participated order by damage_amount desc;
+select avg(damage_amount) as average from participated;
+SELECT NAME FROM PERSON A, PARTICIPATED B WHERE A.DRIVER_ID = B.DRIVER_ID AND DAMAGE_AMOUNT>(SELECT AVG(DAMAGE_AMOUNT) FROM PARTICIPATED);
+SELECT MAX(DAMAGE_AMOUNT) FROM PARTICIPATED;
+DELETE FROM PARTICIPATED WHERE DAMAGE_AMOUNT < ( SELECT AVG (DAMAGE_AMOUNT) FROM PARTICIPATED ); 
 
+CREATE TEMPORARY TABLE TempAvgDamage AS
+SELECT AVG(DAMAGE_AMOUNT) AS AvgDamageAmount FROM PARTICIPATED;
+
+DELETE FROM PARTICIPATED
+WHERE DAMAGE_AMOUNT < (SELECT AvgDamageAmount FROM TempAvgDamage);
+drop TEMPORARY TABLE TempAvgDamage;
 
